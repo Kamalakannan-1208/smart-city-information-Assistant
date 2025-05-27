@@ -6,3 +6,5 @@ Must install requirement.txt and ollama setup(download through chrome)
      streamlit run frontend.py
    
 UI show on local browser-> time to ask questions
+
+![image](https://github.com/user-attachments/assets/7f89a6f0-b937-4e0f-bd7c-573140d374d5)
