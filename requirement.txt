@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+streamlit
+langchain
+ollama
+pymilvus
+chromadb
+sentence-transformers
+python-multipart
+python-docx
