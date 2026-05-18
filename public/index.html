@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Smart City Assistant</title>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Better Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    body{
+      font-family:'Inter',sans-serif;
+      background:
+        radial-gradient(circle at top left,#dbeafe 0%,transparent 30%),
+        radial-gradient(circle at bottom right,#bfdbfe 0%,transparent 30%),
+        #f8fbff;
+    }
+
+    .title-font{
+      font-family:'Outfit',sans-serif;
+    }
+
+    ::-webkit-scrollbar{
+      width:6px;
+    }
+
+    ::-webkit-scrollbar-thumb{
+      background:#cbd5e1;
+      border-radius:20px;
+    }
+  </style>
+</head>
+
+<body class="text-slate-800">
+
+  <div class="max-w-5xl mx-auto min-h-screen flex flex-col px-5">
+
+    <!-- HEADER -->
+    <header class="py-7 flex items-center justify-between border-b border-blue-100">
+
+      <div class="flex items-center gap-4">
+
+        <!-- Logo -->
+        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-600 to-sky-400 text-white flex items-center justify-center shadow-lg shadow-blue-200">
+
+          <svg xmlns="http://www.w3.org/2000/svg"
+               class="w-7 h-7"
+               fill="none"
+               viewBox="0 0 24 24"
+               stroke="currentColor"
+               stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-4"/>
+          </svg>
+
+        </div>
+
+        <!-- Title -->
+        <div>
+
+          <h1 class="title-font text-3xl font-extrabold tracking-tight bg-gradient-to-r from-blue-700 to-sky-500 bg-clip-text text-transparent">
+            Smart City Assistant
+          </h1>
+
+          <p class="text-sm text-slate-500 mt-1">
+            AI-powered city information system
+          </p>
+
+        </div>
+
+      </div>
+
+      <!-- Status -->
+      <div class="hidden md:flex items-center gap-3 text-sm">
+
+        <div class="px-4 py-2 rounded-full bg-white border border-blue-100 shadow-sm flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+          Online
+        </div>
+
+      </div>
+
+    </header>
+
+    <!-- CHAT AREA -->
+    <div id="chat"
+         class="flex-1 py-8 space-y-6 overflow-y-auto">
+
+      <!-- BOT -->
+      <div class="flex gap-4">
+
+        <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-blue-600 to-sky-400 text-white font-semibold flex items-center justify-center shadow-md shrink-0">
+          AI
+        </div>
+
+        <div class="bg-white/80 backdrop-blur border border-blue-100 p-5 rounded-3xl rounded-tl-md shadow-sm max-w-[80%]">
+
+          <p class="text-xs font-semibold tracking-widest uppercase text-blue-500 mb-3">
+            Assistant
+          </p>
+
+          <p class="leading-7 text-[15px] text-slate-700">
+            Welcome 👋 <br>
+            Ask me anything about transportation, city services,
+            permits, emergency contacts, waste collection,
+            or public facilities.
+          </p>
+
+          <!-- Suggestions -->
+          <div class="flex flex-wrap gap-3 mt-5">
+
+            <button onclick="sendSuggestion(this)"
+              class="px-4 py-2 rounded-xl bg-slate-50 border border-slate-200 hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700 transition text-sm">
+              🚍 Bus routes
+            </button>
+
+            <button onclick="sendSuggestion(this)"
+              class="px-4 py-2 rounded-xl bg-slate-50 border border-slate-200 hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700 transition text-sm">
+              🚨 Emergency contacts
+            </button>
+
+            <button onclick="sendSuggestion(this)"
+              class="px-4 py-2 rounded-xl bg-slate-50 border border-slate-200 hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700 transition text-sm">
+              🗑 Waste collection
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- INPUT -->
+    <div class="sticky bottom-0 py-6 bg-gradient-to-t from-[#f8fbff] to-transparent">
+
+      <div class="flex items-end gap-4">
+
+        <textarea
+          id="input"
+          rows="1"
+          placeholder="Ask something about your city..."
+          class="flex-1 resize-none rounded-3xl border border-slate-200 bg-white/90 backdrop-blur px-5 py-4 outline-none focus:ring-4 focus:ring-blue-100 focus:border-blue-300 shadow-sm text-[15px]"
+          onkeydown="handleKey(event)"
+        ></textarea>
+
+        <!-- Send -->
+        <button
+          onclick="sendMessage()"
+          id="sendBtn"
+          class="w-14 h-14 rounded-2xl bg-gradient-to-r from-blue-600 to-sky-400 text-white flex items-center justify-center shadow-lg shadow-blue-200 hover:scale-105 active:scale-95 transition"
+        >
+
+          <svg xmlns="http://www.w3.org/2000/svg"
+               class="w-6 h-6"
+               fill="none"
+               viewBox="0 0 24 24"
+               stroke="currentColor"
+               stroke-width="2.2">
+
+            <path stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M22 2L11 13"/>
+
+            <path stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M22 2L15 22L11 13L2 9L22 2Z"/>
+
+          </svg>
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+<script>
+
+const API_BASE = "http://127.0.0.1:8000";
+let busy = false;
+
+// ENTER SEND
+function handleKey(e){
+  if(e.key==="Enter" && !e.shiftKey){
+    e.preventDefault();
+    sendMessage();
+  }
+}
+
+// SUGGESTIONS
+function sendSuggestion(btn){
+  document.getElementById("input").value = btn.innerText;
+  sendMessage();
+}
+
+// APPEND MSG
+function appendMsg(role,text){
+
+  const chat = document.getElementById("chat");
+  const isUser = role==="user";
+
+  const div = document.createElement("div");
+
+  div.className = `flex gap-4 ${isUser ? "justify-end" : ""}`;
+
+  div.innerHTML = `
+
+    ${!isUser ? `
+      <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-blue-600 to-sky-400 text-white font-semibold flex items-center justify-center shadow-md shrink-0">
+        AI
+      </div>
+    ` : ""}
+
+    <div class="${isUser
+      ? "bg-gradient-to-r from-blue-600 to-sky-500 text-white rounded-3xl rounded-tr-md"
+      : "bg-white/80 border border-blue-100 text-slate-700 rounded-3xl rounded-tl-md"}
+      p-5 shadow-sm max-w-[80%] backdrop-blur">
+
+      <p class="text-xs uppercase tracking-widest mb-2 font-semibold ${isUser ? "text-blue-100" : "text-blue-500"}">
+        ${isUser ? "You" : "Assistant"}
+      </p>
+
+      <p class="leading-7 text-[15px]">${text}</p>
+
+    </div>
+
+  `;
+
+  chat.appendChild(div);
+
+  chat.scrollTop = chat.scrollHeight;
+}
+
+// SEND
+async function sendMessage(){
+
+  if(busy) return;
+
+  const input = document.getElementById("input");
+  const question = input.value.trim();
+
+  if(!question) return;
+
+  input.value = "";
+
+  appendMsg("user",question);
+
+  busy = true;
+
+  try{
+
+    const res = await fetch(`${API_BASE}/api/query`,{
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json"
+      },
+      body:JSON.stringify({question})
+    });
+
+    const data = await res.json();
+
+    appendMsg("bot",data.answer || "No response");
+
+  }catch{
+
+    appendMsg("bot","⚠ Unable to connect to API");
+
+  }
+
+  busy = false;
+}
+
+</script>
+
+</body>
+</html>
